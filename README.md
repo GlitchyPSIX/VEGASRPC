@@ -1,5 +1,5 @@
 ﻿<span style="text-align: center; display: inline-block;">
-<img src="images/icon.png" style="max-width: 10em; max-height: 10em;">
+<img src="images/icon.png" style="max-width: 10em; max-height: 6em;">
 
 ### VEGAS Pro Rich Presence for Discord
 
@@ -9,9 +9,9 @@ Because why not? There wasn't any before.
 
 ## Overview
 
-This is an extension for VEGAS Pro from MAGIX VEGAS 13 (downloadable from MAGIX's website) that enables support for Discord's Rich Presence features.
+This is an extension for VEGAS Pro from MAGIX VEGAS 13 up to VEGAS 17 (downloadable from MAGIX's website) that enables support for Discord's Rich Presence features.
 
-<img src="images/VEGAS_SS.png">_
+<img src="images/VEGAS_SS.png">
 
 ## Features
 
@@ -39,7 +39,7 @@ This is an extension for VEGAS Pro from MAGIX VEGAS 13 (downloadable from MAGIX'
 
 ## Install Instructions
 
-Grab the latest `"VEGASRPC.zip"` from the [Releases tab](https://github.com/GlitchyPSI/VEGASRPC) and extract its contents in **My Documents/Vegas Application Extensions** or **C:/ProgramData/Vegas Pro/Application Extensions** (Only one of these!).
+Grab the latest `"VEGASRPC.zip"` from the [Releases tab](https://github.com/GlitchyPSIX/VEGASRPC) and extract its contents in **My Documents/Vegas Application Extensions** or **C:/ProgramData/Vegas Pro/Application Extensions** (Only one of these!).
 
 ## Building
 
