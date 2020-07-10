@@ -1,5 +1,5 @@
 ﻿<span style="text-align: center; display: inline-block;">
-<img src="images/icon.png" style="max-width: 30%;">
+<img src="images/icon.png" style="max-width: 10em; max-height: 10em;">
 
 ### VEGAS Pro Rich Presence for Discord
 
