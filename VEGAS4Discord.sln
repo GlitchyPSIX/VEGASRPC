@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VEGASDiscordRPC", "VEGAS4Discord\VEGASDiscordRPC.csproj", "{562063EF-B459-4C3E-B407-144FDF8BC3EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Unity|Any CPU = Debug Unity|Any CPU
+		Debug Unity|x64 = Debug Unity|x64
+		Debug Unity|x86 = Debug Unity|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug Unity|Any CPU.ActiveCfg = Debug|Any CPU
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug Unity|Any CPU.Build.0 = Debug|Any CPU
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug Unity|x64.ActiveCfg = Debug|x64
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug Unity|x64.Build.0 = Debug|x64
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug Unity|x86.ActiveCfg = Debug|x86
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug Unity|x86.Build.0 = Debug|x86
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug|x64.ActiveCfg = Debug|x64
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug|x64.Build.0 = Debug|x64
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug|x86.ActiveCfg = Debug|x86
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Debug|x86.Build.0 = Debug|x86
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Release|x64.ActiveCfg = Release|x64
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Release|x64.Build.0 = Release|x64
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Release|x86.ActiveCfg = Release|x86
+		{562063EF-B459-4C3E-B407-144FDF8BC3EC}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3852E9D2-3DCD-46E3-AB21-4DB367EFD8CB}
+	EndGlobalSection
+EndGlobal
