@@ -39,7 +39,7 @@ This is an extension for VEGAS Pro from MAGIX VEGAS 13 up to VEGAS 17 (downloada
 
 ## Install Instructions
 
-Grab the latest `"VEGASRPC.zip"` from the [Releases tab](https://github.com/GlitchyPSIX/VEGASRPC) and extract its contents in **My Documents/Vegas Application Extensions** or **C:/ProgramData/Vegas Pro/Application Extensions** (Only one of these!).
+Grab the latest `"VEGASRPC.zip"` from the [Releases tab](https://github.com/GlitchyPSIX/VEGASRPC/releases/latest) and extract its contents in **My Documents/Vegas Application Extensions** or **C:/ProgramData/Vegas Pro/Application Extensions** (Only one of these!).
 
 ## Building
 
