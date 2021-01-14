@@ -1,5 +1,5 @@
 ﻿<span style="text-align: center; display: inline-block;">
-<img src="images/icon.png" style="max-width: 10em; max-height: 6em;">
+<img src="images/icon.png" style="width: 5em; height: 5em;">
 
 # VEGAS Pro Rich Presence for Discord
 
@@ -11,7 +11,7 @@ Because why not? There wasn't any before.
 
 ## Overview
 
-This is an extension for VEGAS Pro from MAGIX VEGAS 13 up to VEGAS 17 (downloadable from MAGIX's website) that enables support for Discord's Rich Presence features.
+This is an extension for VEGAS Pro from MAGIX VEGAS 14 up to VEGAS 18 (downloadable from MAGIX's website) that enables support for Discord's Rich Presence features.
 
 <img src="images/VEGAS_SS.png">
 
@@ -21,7 +21,7 @@ This is an extension for VEGAS Pro from MAGIX VEGAS 13 up to VEGAS 17 (downloada
 
  * Displays whether you're rendering, and how much time has passed since you started, whether you cancelled, failed, or finished successfully.
 
- * Displays when you're just being lazy (no activity in one minute, lol)
+ * Displays when you're just being lazy (One minute of inactivity)
 
  * Displays a logo related to your VEGAS version as well as its specific version on hover.
 
@@ -35,7 +35,7 @@ This is an extension for VEGAS Pro from MAGIX VEGAS 13 up to VEGAS 17 (downloada
 
 ## Requirements
 
- * MAGIX (not Sony) VEGAS Pro 13 and above (64-bit)
+ * MAGIX (not Sony) VEGAS Pro 14 and above (64-bit)
    * This does **NOT** work in Movie Studio!
  * .NET Framework 4.5
 
@@ -46,7 +46,7 @@ Grab the latest `"VEGASRPC.zip"` from the [Releases tab](https://github.com/Glit
 ## Building
 
 To build this extension, you need:
- * MAGIX VEGAS Pro 13 or later,
+ * MAGIX VEGAS Pro 14 or later,
  * Visual Studio 2017
  * .NET Framework 4.5
 
@@ -54,4 +54,4 @@ Drag your MAGIX VEGAS's ``ScriptPortal.Vegas.dll`` into the folder ``Libraries``
 
 ## License
 
-MIT. see LICENSE for more details.
+MIT. See LICENSE for more details.
