@@ -11,6 +11,7 @@ namespace VegasDiscordRPC
 
     public class EntryPoint : ICustomCommandModule
     {
+        // DummyDocker is here because using a Docker is the only way I can listen to the VEGAS window closing.
         DockableControl dummyDocker;
         DiscordRpc.EventHandlers callbacks = new DiscordRpc.EventHandlers();
         DiscordRpc.RichPresence presence = new DiscordRpc.RichPresence();
@@ -18,7 +19,8 @@ namespace VegasDiscordRPC
         bool PresenceEnabled { get; set; } = true;
         Timer idleTimer = new Timer();
         int SecondsSinceLastAction;
-        bool isRendering;
+        // Whether it's playing, rendering...
+        bool isActive;
 
         private long unixTimestamp(DateTime dt)
         {
@@ -64,8 +66,11 @@ namespace VegasDiscordRPC
             presence.details = "Idling";
             vegas.TrackCountChanged += (a, b) => UpdateTrackNumber(vegas);
             vegas.TrackEventCountChanged += (a, b) => UpdateTrackNumber(vegas);
-            vegas.RenderStarted += (a, b) => RenderStarted();
-            vegas.RenderFinished += (a, b) => RenderEvtFinish(b);
+            vegas.PlaybackStarted += (a, b) => { isActive = true; GenericNonIdleAction(vegas); };
+            vegas.PlaybackStopped += (a, b) => { isActive = false; GenericNonIdleAction(vegas); };
+            vegas.ProjectSaving += (a, b) => GenericNonIdleAction(vegas);
+            vegas.RenderStarted += (a, b) => RenderStarted(vegas);
+            vegas.RenderFinished += (a, b) => RenderEvtFinish(b, vegas);
             vegas.AppInitialized += (a, b) => loadDummyDocker((Vegas)a);
             DiscordRpc.RunCallbacks();
             DiscordRpc.UpdatePresence(ref presence);
@@ -76,11 +81,11 @@ namespace VegasDiscordRPC
 
         public void IntervalTick()
         {
-            if (SecondsSinceLastAction < 60 && !isRendering)
+            if (SecondsSinceLastAction < 60 && !isActive)
             {
                 SecondsSinceLastAction += 10;
             }
-            else
+            else if (SecondsSinceLastAction >= 60 && !isActive)
             {
                 resetPresence(ref presence, DomainManager.VegasDomainManager.GetVegas());
                 presence.details = "Idling";
@@ -102,7 +107,7 @@ namespace VegasDiscordRPC
 
             pres = new DiscordRpc.RichPresence
             {
-                largeImageKey = (int.Parse(vegas.Version.Split(' ')[1].Split('.')[0]) > 14 ? "v15": "v" + vegas.Version.Split(' ')[1].Split('.')[0]),
+                largeImageKey = (int.Parse(vegas.Version.Split(' ')[1].Split('.')[0]) > 14 ? "v15" : "v" + vegas.Version.Split(' ')[1].Split('.')[0]),
                 largeImageText = vegas.Version
             };
             if (smallKey != "")
@@ -115,30 +120,31 @@ namespace VegasDiscordRPC
             }
         }
 
-        public void RenderStarted()
+        public void RenderStarted(Vegas vegas)
         {
-            
+
             if (!PresenceEnabled)
                 return;
 
             SecondsSinceLastAction = 0;
-            isRendering = true;
-            resetPresence(ref presence, DomainManager.VegasDomainManager.GetVegas());
+            isActive = true;
+            resetPresence(ref presence, vegas);
             presence.startTimestamp = unixTimestamp(DateTime.UtcNow);
             presence.details = "";
             presence.state = "Rendering...";
             DiscordRpc.UpdatePresence(ref presence);
         }
 
-        public void RenderEvtFinish(RenderStatusEventArgs renderargs)
+
+        public void RenderEvtFinish(RenderStatusEventArgs renderargs, Vegas vegas)
         {
             if (!PresenceEnabled)
                 return;
 
             SecondsSinceLastAction = 0;
-            isRendering = false;
+            isActive = false;
             presence = new DiscordRpc.RichPresence();
-            resetPresence(ref presence, DomainManager.VegasDomainManager.GetVegas());
+            resetPresence(ref presence, vegas);
             switch (renderargs.Status)
             {
                 case RenderStatus.Complete:
@@ -152,6 +158,14 @@ namespace VegasDiscordRPC
                     break;
             }
             DiscordRpc.UpdatePresence(ref presence);
+        }
+
+        public void GenericNonIdleAction(Vegas vegas)
+        {
+            if (!PresenceEnabled)
+                return;
+            SecondsSinceLastAction = 0;
+            UpdateTrackNumber(vegas);
         }
 
         public void UpdateTrackNumber(Vegas vegas)
@@ -177,7 +191,7 @@ namespace VegasDiscordRPC
                 {
                     presence.state = "Video and Audio";
                     presence.partySize = videotracks;
-                    presence.partyMax = audiotracks+videotracks;
+                    presence.partyMax = audiotracks + videotracks;
                 }
                 else if (videotracks == 0 && audiotracks > 0)
                 {
@@ -186,7 +200,8 @@ namespace VegasDiscordRPC
                     presence.partyMax = audiotracks;
                 }
                 DiscordRpc.UpdatePresence(ref presence);
-            } else
+            }
+            else
             {
                 presence.details = "No tracks";
                 DiscordRpc.UpdatePresence(ref presence);

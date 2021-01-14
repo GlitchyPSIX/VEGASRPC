@@ -121,12 +121,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y  "$(TargetPath)" "C:\ProgramData\Vegas Pro\Application Extensions\VegasDiscordRPC.dll"</PostBuildEvent>
+    <PostBuildEvent>echo f | xcopy /Y  "$(TargetPath)" "C:\ProgramData\VEGAS Pro\Application Extensions\VegasDiscordRPC.dll"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>taskkill /f /fi "imagename eq vegas150.exe"
 taskkill /f /fi "imagename eq vegas140.exe"
 taskkill /f /fi "imagename eq vegas160.exe"
-taskkill /f /fi "imagename eq vegas170.exe"</PreBuildEvent>
+taskkill /f /fi "imagename eq vegas170.exe"
+taskkill /f /fi "imagename eq vegas180.exe"</PreBuildEvent>
   </PropertyGroup>
 </Project>
