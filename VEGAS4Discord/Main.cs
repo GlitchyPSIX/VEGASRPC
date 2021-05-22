@@ -70,6 +70,7 @@ namespace VegasDiscordRPC
             vegas.PlaybackStopped += (a, b) => { isActive = false; GenericNonIdleAction(vegas); };
             vegas.ProjectSaving += (a, b) => GenericNonIdleAction(vegas);
             vegas.RenderStarted += (a, b) => RenderStarted(vegas);
+            vegas.RenderProgress += (a, b) => RenderEvtProgress(b, vegas);
             vegas.RenderFinished += (a, b) => RenderEvtFinish(b, vegas);
             vegas.AppInitialized += (a, b) => loadDummyDocker((Vegas)a);
             DiscordRpc.RunCallbacks();
@@ -131,7 +132,17 @@ namespace VegasDiscordRPC
             resetPresence(ref presence, vegas);
             presence.startTimestamp = unixTimestamp(DateTime.UtcNow);
             presence.details = "";
-            presence.state = "Rendering...";
+            presence.state = "Rendering... (0%)";
+            DiscordRpc.UpdatePresence(ref presence);
+        }
+
+        public void RenderEvtProgress(RenderStatusEventArgs renderargs, Vegas vegas)
+        {
+            if (!PresenceEnabled)
+                return;
+
+            presence.details = "";
+            presence.state = $"Rendering... ({renderargs.PercentComplete}%)";
             DiscordRpc.UpdatePresence(ref presence);
         }
 
