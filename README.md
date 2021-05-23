@@ -43,6 +43,8 @@ This is an extension for VEGAS Pro from MAGIX VEGAS 14 up to VEGAS 18 (downloada
 
 Grab the latest `"VEGASRPC.zip"` from the [Releases tab](https://github.com/GlitchyPSIX/VEGASRPC/releases/latest) and extract its contents in **My Documents/Vegas Application Extensions** or **C:/ProgramData/Vegas Pro/Application Extensions** (Only one of these!).
 
+The folder(s) may or may not already exist. If they don't, create the folder. The easiest one to set up is the one in your Documents folder.
+
 ## Building
 
 To build this extension, you need:
