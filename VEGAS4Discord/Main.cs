@@ -106,9 +106,35 @@ namespace VegasDiscordRPC
             if (!PresenceEnabled)
                 return;
 
+            int vegasVersion = int.Parse(vegas.Version.Split(' ')[1].Split('.')[0]);
+            string verKey;
+
+            switch (vegasVersion) {
+                case >= 13 and < 15:
+                {
+                    verKey = $"v{vegasVersion}";
+                    break;
+                }
+                case >= 15 and <= 18:
+                {
+                    verKey = "v15";
+                    break;
+                }
+                case >18:
+                {
+                    verKey = "v19";
+                    break;
+                }
+                default:
+                {
+                    verKey = "v13";
+                    break;
+                }
+            }
+
             pres = new DiscordRpc.RichPresence
             {
-                largeImageKey = (int.Parse(vegas.Version.Split(' ')[1].Split('.')[0]) > 14 ? "v15" : "v" + vegas.Version.Split(' ')[1].Split('.')[0]),
+                largeImageKey = verKey,
                 largeImageText = vegas.Version
             };
             if (smallKey != "")
