@@ -11,17 +11,20 @@ Because why not? There wasn't any before.
 
 ## Overview
 
-This is an extension for VEGAS Pro from MAGIX VEGAS 14 up to VEGAS 18 (downloadable from MAGIX's website) that enables support for Discord's Rich Presence features.
+This is an extension for VEGAS Pro from MAGIX VEGAS 14 up to VEGAS 21 (downloadable from MAGIX's website) that enables support for Discord's Rich Presence features.
 
 <img src="images/VEGAS_SS.png">
 
 ## Features
 
  * Display how many tracks of both Audio and Video you're currently editing.
+   * Display how many events (audio/video/adjustment) are in your Timeline
+   * Display your project's name
 
  * Displays whether you're rendering, and how much time has passed since you started, whether you cancelled, failed, or finished successfully.
+   * Displays how much time you've spent since the project was opened
 
- * Displays when you're just being lazy (One minute of inactivity)
+ * Displays when you're just being lazy (300 seconds of inactivity, configurable)
 
  * Displays a logo related to your VEGAS version as well as its specific version on hover.
 
@@ -37,7 +40,7 @@ This is an extension for VEGAS Pro from MAGIX VEGAS 14 up to VEGAS 18 (downloada
 
  * MAGIX (not Sony) VEGAS Pro 14 and above (64-bit)
    * This does **NOT** work in Movie Studio!
- * .NET Framework 4.5
+ * .NET Framework 4.8
 
 ## Install Instructions
 
@@ -49,8 +52,8 @@ The folder(s) may or may not already exist. If they don't, create the folder. Th
 
 To build this extension, you need:
  * MAGIX VEGAS Pro 14 or later,
- * Visual Studio 2017
- * .NET Framework 4.5
+ * Visual Studio 2022
+ * .NET Framework 4.8
 
 Drag your MAGIX VEGAS's ``ScriptPortal.Vegas.dll`` into the folder ``Libraries`` inside the "VEGAS4Discord" folder. This is because the library for VEGAS Scripting cannot be distributed.
 
