@@ -27,6 +27,8 @@ namespace VegasDiscordRPC
 
         private ConfigManager _myConfig = new();
 
+        private DateTime _sinceOpened;
+
         private long unixTimestamp(DateTime dt)
         {
             return (dt.Ticks - 621355968000000000) / 10000000;
@@ -66,6 +68,7 @@ namespace VegasDiscordRPC
 
         public void InitializeModule(Vegas vegas)
         {
+            _sinceOpened = DateTime.Now;
             resetPresence(ref presence, vegas);
             DiscordRpc.Initialize("434711433112977427", ref callbacks, true, string.Empty);
             presence.details = "Idling";
@@ -144,6 +147,11 @@ namespace VegasDiscordRPC
                 largeImageKey = verKey,
                 largeImageText = vegas.Version
             };
+
+            if (_myConfig.CurrentConfig.UseStartupTime) {
+                pres.startTimestamp = unixTimestamp(_sinceOpened);
+            }
+
             if (smallKey != "")
             {
                 pres.smallImageKey = smallKey;
@@ -163,7 +171,11 @@ namespace VegasDiscordRPC
             SecondsSinceLastAction = 0;
             isActive = true;
             resetPresence(ref presence, vegas);
-            presence.startTimestamp = unixTimestamp(DateTime.UtcNow);
+
+            if (!_myConfig.CurrentConfig.UseStartupTime) {
+                presence.startTimestamp = unixTimestamp(DateTime.UtcNow);
+            }
+
             presence.details = "";
             presence.state = "Rendering... (0%)";
             DiscordRpc.UpdatePresence(ref presence);
@@ -174,6 +186,10 @@ namespace VegasDiscordRPC
             if (!_myConfig.CurrentConfig.PresenceEnabled)
                 return;
 
+            if (!_myConfig.CurrentConfig.UseStartupTime)
+            {
+                presence.startTimestamp = unixTimestamp(DateTime.UtcNow);
+            }
             presence.details = "";
             presence.state = $"Rendering... ({renderargs.PercentComplete}%)";
             DiscordRpc.UpdatePresence(ref presence);
@@ -221,8 +237,8 @@ namespace VegasDiscordRPC
             resetPresence(ref presence, vegas);
             if (vegas.Project.Tracks.Count != 0)
             {
-                int videotracks = vegas.Project.Tracks.Where(x => x.GetType() == typeof(VideoTrack)).Count();
-                int audiotracks = vegas.Project.Tracks.Where(x => x.GetType() == typeof(AudioTrack)).Count();
+                int videotracks = vegas.Project.Tracks.Count(x => x.GetType() == typeof(VideoTrack));
+                int audiotracks = vegas.Project.Tracks.Count(x => x.GetType() == typeof(AudioTrack));
 
                 presence.details = "Editing";
                 if (videotracks > 0 && audiotracks == 0)

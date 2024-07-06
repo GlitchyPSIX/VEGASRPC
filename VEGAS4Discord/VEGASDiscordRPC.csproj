@@ -90,10 +90,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComboboxItem.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\DisplayDetailType.cs" />
     <Compile Include="DiscordRPC.cs" />
+    <Compile Include="Forms\ConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConfigForm.Designer.cs">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\RichPresenceToggle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +121,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\ConfigForm.resx">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\RichPresenceToggle.resx">
       <DependentUpon>RichPresenceToggle.cs</DependentUpon>
     </EmbeddedResource>
