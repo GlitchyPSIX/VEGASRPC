@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cbEnableRichPresence = new System.Windows.Forms.CheckBox();
             this.gbOtherSetts = new System.Windows.Forms.GroupBox();
             this.cbIdling = new System.Windows.Forms.CheckBox();
             this.nudIdleSeconds = new System.Windows.Forms.NumericUpDown();
@@ -44,19 +43,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudIdleSeconds)).BeginInit();
             this.SuspendLayout();
             // 
-            // cbEnableRichPresence
-            // 
-            this.cbEnableRichPresence.AutoSize = true;
-            this.cbEnableRichPresence.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbEnableRichPresence.Location = new System.Drawing.Point(62, 22);
-            this.cbEnableRichPresence.Name = "cbEnableRichPresence";
-            this.cbEnableRichPresence.Size = new System.Drawing.Size(287, 28);
-            this.cbEnableRichPresence.TabIndex = 0;
-            this.cbEnableRichPresence.Text = "Enable Discord Rich Presence";
-            this.cbEnableRichPresence.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.cbEnableRichPresence.UseVisualStyleBackColor = true;
-            this.cbEnableRichPresence.CheckedChanged += new System.EventHandler(this.cbEnableRichPresence_CheckedChanged);
-            // 
             // gbOtherSetts
             // 
             this.gbOtherSetts.Controls.Add(this.cbStartupTimer);
@@ -65,7 +51,7 @@
             this.gbOtherSetts.Controls.Add(this.label1);
             this.gbOtherSetts.Controls.Add(this.nudIdleSeconds);
             this.gbOtherSetts.Controls.Add(this.cbIdling);
-            this.gbOtherSetts.Location = new System.Drawing.Point(12, 69);
+            this.gbOtherSetts.Location = new System.Drawing.Point(12, 12);
             this.gbOtherSetts.Name = "gbOtherSetts";
             this.gbOtherSetts.Size = new System.Drawing.Size(376, 175);
             this.gbOtherSetts.TabIndex = 1;
@@ -85,7 +71,12 @@
             // 
             // nudIdleSeconds
             // 
-            this.nudIdleSeconds.Location = new System.Drawing.Point(15, 79);
+            this.nudIdleSeconds.Location = new System.Drawing.Point(15, 86);
+            this.nudIdleSeconds.Maximum = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
             this.nudIdleSeconds.Minimum = new decimal(new int[] {
             10,
             0,
@@ -113,7 +104,7 @@
             // 
             this.cbDetailStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDetailStyle.FormattingEnabled = true;
-            this.cbDetailStyle.Location = new System.Drawing.Point(15, 131);
+            this.cbDetailStyle.Location = new System.Drawing.Point(15, 140);
             this.cbDetailStyle.Name = "cbDetailStyle";
             this.cbDetailStyle.Size = new System.Drawing.Size(142, 21);
             this.cbDetailStyle.TabIndex = 3;
@@ -129,26 +120,28 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(313, 273);
+            this.btnSave.Location = new System.Drawing.Point(313, 216);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 2;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(232, 273);
+            this.btnCancel.Location = new System.Drawing.Point(232, 216);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // llbGLITCHYPSI
             // 
             this.llbGLITCHYPSI.AutoSize = true;
-            this.llbGLITCHYPSI.Location = new System.Drawing.Point(14, 253);
+            this.llbGLITCHYPSI.Location = new System.Drawing.Point(14, 196);
             this.llbGLITCHYPSI.Name = "llbGLITCHYPSI";
             this.llbGLITCHYPSI.Size = new System.Drawing.Size(113, 13);
             this.llbGLITCHYPSI.TabIndex = 5;
@@ -158,17 +151,17 @@
             // 
             // cbStartupTimer
             // 
-            this.cbStartupTimer.Location = new System.Drawing.Point(207, 16);
+            this.cbStartupTimer.Location = new System.Drawing.Point(169, 18);
             this.cbStartupTimer.Name = "cbStartupTimer";
-            this.cbStartupTimer.Size = new System.Drawing.Size(151, 46);
+            this.cbStartupTimer.Size = new System.Drawing.Size(192, 40);
             this.cbStartupTimer.TabIndex = 5;
-            this.cbStartupTimer.Text = "Show Time since Opened instead of Render Time";
+            this.cbStartupTimer.Text = "Show Time Since Project Opened instead of Elapsed Render Time";
             this.cbStartupTimer.UseVisualStyleBackColor = true;
             // 
             // llbGithub
             // 
             this.llbGithub.AutoSize = true;
-            this.llbGithub.Location = new System.Drawing.Point(14, 273);
+            this.llbGithub.Location = new System.Drawing.Point(14, 216);
             this.llbGithub.Name = "llbGithub";
             this.llbGithub.Size = new System.Drawing.Size(140, 13);
             this.llbGithub.TabIndex = 6;
@@ -180,14 +173,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(400, 308);
+            this.ClientSize = new System.Drawing.Size(400, 254);
             this.ControlBox = false;
             this.Controls.Add(this.llbGithub);
             this.Controls.Add(this.llbGLITCHYPSI);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.gbOtherSetts);
-            this.Controls.Add(this.cbEnableRichPresence);
             this.Name = "ConfigForm";
             this.Text = "Vegas4Discord Config";
             this.gbOtherSetts.ResumeLayout(false);
@@ -199,8 +191,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.CheckBox cbEnableRichPresence;
         private System.Windows.Forms.GroupBox gbOtherSetts;
         private System.Windows.Forms.NumericUpDown nudIdleSeconds;
         private System.Windows.Forms.CheckBox cbIdling;

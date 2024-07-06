@@ -38,15 +38,20 @@ namespace VegasDiscordRPC
         {
             CustomCommand cmd = new CustomCommand(CommandCategory.Tools, "ToggleStatus")
             {
-                DisplayName = "Toggle Rich Presence"
+                DisplayName = "Quick Toggle Rich Presence"
+            };
+            CustomCommand cmdSetts = new CustomCommand(CommandCategory.Tools, "RpcSettings")
+            {
+                DisplayName = "Open Vegas4Discord Settings"
             };
             cmd.Invoked += (a, b) => TogglePresence(DomainManager.VegasDomainManager.GetVegas());
+            cmdSetts.Invoked += (a, b) => OpenSettings(DomainManager.VegasDomainManager.GetVegas());
             callbacks.disconnectedCallback += DisconnectedCallback;
             callbacks.errorCallback += ErrorCallback;
             callbacks.readyCallback += ReadyCallback;
 
             dummyDocker = new DockableControl("dummyDocker");
-            return new CustomCommand[] { cmd };
+            return new CustomCommand[] { cmd, cmdSetts };
         }
 
         void loadDummyDocker(Vegas vegas)
@@ -68,16 +73,23 @@ namespace VegasDiscordRPC
 
         public void InitializeModule(Vegas vegas)
         {
-            _sinceOpened = DateTime.Now;
+            _sinceOpened = DateTime.UtcNow;
+            _myConfig.LoadConfig();
+            idleTimer.Interval = (int)Math.Round(_myConfig.CurrentConfig.IdleTimeout * 1000);
             resetPresence(ref presence, vegas);
             DiscordRpc.Initialize("434711433112977427", ref callbacks, true, string.Empty);
             presence.details = "Idling";
-            vegas.TrackEventCountChanged += (a, b) => { };
-            vegas.TrackCountChanged += (a, b) => { UpdateTrackNumber(vegas); };
-            vegas.TrackEventCountChanged += (a, b) => { UpdateTrackNumber(vegas); };
+            vegas.TrackEventCountChanged += (a, b) => { UpdatePresenceDetail(vegas); };
+            vegas.TrackCountChanged += (a, b) => { UpdatePresenceDetail(vegas); };
+            vegas.TrackEventCountChanged += (a, b) => { UpdatePresenceDetail(vegas); };
             vegas.PlaybackStarted += (a, b) => { isActive = true; GenericNonIdleAction(vegas); };
             vegas.PlaybackStopped += (a, b) => { isActive = false; GenericNonIdleAction(vegas); };
             vegas.ProjectSaving += (a, b) => GenericNonIdleAction(vegas);
+            vegas.ProjectOpened += (a, b) =>
+            {
+                GenericNonIdleAction(vegas);
+                _sinceOpened = DateTime.UtcNow;
+            };
             vegas.RenderStarted += (a, b) => RenderStarted(vegas);
             vegas.RenderProgress += (a, b) => RenderEvtProgress(b, vegas);
             vegas.RenderFinished += (a, b) => RenderEvtFinish(b, vegas);
@@ -89,7 +101,8 @@ namespace VegasDiscordRPC
             idleTimer.Start();
         }
 
-        public void IntervalTick() {
+        public void IntervalTick()
+        {
             if (isActive || !_myConfig.CurrentConfig.IdleEnabled) return;
 
             if (SecondsSinceLastAction < _myConfig.CurrentConfig.IdleTimeout)
@@ -119,27 +132,28 @@ namespace VegasDiscordRPC
             int vegasVersion = int.Parse(vegas.Version.Split(' ')[1].Split('.')[0]);
             string verKey;
 
-            switch (vegasVersion) {
+            switch (vegasVersion)
+            {
                 case >= 13 and < 15:
-                {
-                    verKey = $"v{vegasVersion}";
-                    break;
-                }
+                    {
+                        verKey = $"v{vegasVersion}";
+                        break;
+                    }
                 case >= 15 and <= 18:
-                {
-                    verKey = "v15";
-                    break;
-                }
+                    {
+                        verKey = "v15";
+                        break;
+                    }
                 case > 18:
-                {
-                    verKey = "v19";
-                    break;
-                }
+                    {
+                        verKey = "v19";
+                        break;
+                    }
                 default:
-                {
-                    verKey = "v13";
-                    break;
-                }
+                    {
+                        verKey = "v13";
+                        break;
+                    }
             }
 
             pres = new DiscordRpc.RichPresence
@@ -148,7 +162,8 @@ namespace VegasDiscordRPC
                 largeImageText = vegas.Version
             };
 
-            if (_myConfig.CurrentConfig.UseStartupTime) {
+            if (_myConfig.CurrentConfig.UseStartupTime)
+            {
                 pres.startTimestamp = unixTimestamp(_sinceOpened);
             }
 
@@ -172,7 +187,8 @@ namespace VegasDiscordRPC
             isActive = true;
             resetPresence(ref presence, vegas);
 
-            if (!_myConfig.CurrentConfig.UseStartupTime) {
+            if (!_myConfig.CurrentConfig.UseStartupTime)
+            {
                 presence.startTimestamp = unixTimestamp(DateTime.UtcNow);
             }
 
@@ -220,12 +236,62 @@ namespace VegasDiscordRPC
             DiscordRpc.UpdatePresence(ref presence);
         }
 
-        public void GenericNonIdleAction(Vegas vegas)
+        private void GenericNonIdleAction(Vegas vegas)
         {
             if (!_myConfig.CurrentConfig.PresenceEnabled)
                 return;
+
             SecondsSinceLastAction = 0;
-            UpdateTrackNumber(vegas);
+            UpdatePresenceDetail(vegas);
+        }
+
+        public void UpdatePresenceDetail(Vegas vegas)
+        {
+            switch (_myConfig.CurrentConfig.DisplayDetailType)
+            {
+                case DisplayDetailType.PROJECT_FILENAME:
+                    UpdateWithProjectFilename(vegas);
+                    break;
+                case DisplayDetailType.MEDIA_EVENTS:
+                    UpdateEventNumber(vegas);
+                    break;
+                case DisplayDetailType.TRACKS:
+                default:
+                    UpdateTrackNumber(vegas);
+                    break;
+            }
+        }
+
+        public void UpdateWithProjectFilename(Vegas vegas)
+        {
+            if (!_myConfig.CurrentConfig.PresenceEnabled)
+                return;
+
+            string projectFn = (vegas.Project.IsUntitled ? "<Untitled>" : vegas.Project.FilePath.Split('\\').Last());
+            resetPresence(ref presence, vegas);
+
+            presence.details = $"Editing {projectFn}";
+            DiscordRpc.UpdatePresence(ref presence);
+        }
+
+        public void UpdateEventNumber(Vegas vegas)
+        {
+            if (!_myConfig.CurrentConfig.PresenceEnabled)
+                return;
+
+            SecondsSinceLastAction = 0;
+            resetPresence(ref presence, vegas);
+            if (vegas.Project.Tracks.Count != 0)
+            {
+                int totalEvents = vegas.Project.Tracks.Select(x => x.Events.Count).Sum();
+                presence.details = $"with {totalEvents} total events in the Timeline";
+            }
+            else
+            {
+                presence.details = "No events";
+            }
+
+            DiscordRpc.UpdatePresence(ref presence);
         }
 
         public void UpdateTrackNumber(Vegas vegas)
@@ -268,6 +334,17 @@ namespace VegasDiscordRPC
             }
         }
 
+        public void OpenSettings(Vegas vegas)
+        {
+            ConfigForm cfgf = new ConfigForm(_myConfig);
+            cfgf.OnSave += (sender, args) =>
+            {
+                GenericNonIdleAction(vegas);
+                idleTimer.Interval = (int)Math.Round(_myConfig.CurrentConfig.IdleTimeout * 1000);
+            };
+            cfgf.ShowDialog(vegas.MainWindow);
+        }
+
         public void TogglePresence(Vegas vegas)
         {
             if (_myConfig.CurrentConfig.PresenceEnabled)
@@ -286,7 +363,7 @@ namespace VegasDiscordRPC
                 _myConfig.CurrentConfig.PresenceEnabled = true;
                 resetPresence(ref presence, vegas);
                 DiscordRpc.Initialize("434711433112977427", ref callbacks, true, string.Empty);
-                UpdateTrackNumber(vegas);
+                UpdatePresenceDetail(vegas);
             }
         }
 
