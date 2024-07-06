@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VegasDiscordRPC</RootNamespace>
     <AssemblyName>VegasDiscordRPC</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -90,6 +90,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\Config.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Config\DisplayDetailType.cs" />
     <Compile Include="DiscordRPC.cs" />
     <Compile Include="Forms\RichPresenceToggle.cs">
       <SubType>Form</SubType>
