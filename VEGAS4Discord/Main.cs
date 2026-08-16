@@ -144,11 +144,19 @@ namespace VegasDiscordRPC
                         verKey = "v15";
                         break;
                     }
-                case > 18:
+                case > 18 and <= 20:
                     {
                         verKey = "v19";
                         break;
                     }
+                case > 20 and <= 23: {
+                    verKey = "v21";
+                    break;
+                }
+                case >= 2026: {
+                    verKey = "v2026";
+                    break;
+                }
                 default:
                     {
                         verKey = "v13";

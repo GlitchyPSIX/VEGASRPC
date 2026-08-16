@@ -147,6 +147,7 @@
 taskkill /f /fi "imagename eq vegas140.exe"
 taskkill /f /fi "imagename eq vegas160.exe"
 taskkill /f /fi "imagename eq vegas170.exe"
-taskkill /f /fi "imagename eq vegas180.exe"</PreBuildEvent>
+taskkill /f /fi "imagename eq vegas180.exe"
+taskkill /f /fi "imagename eq vegas230.exe"</PreBuildEvent>
   </PropertyGroup>
 </Project>
